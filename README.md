@@ -8,6 +8,7 @@
 
  ## Group Members [Group 18]
  
+ Amedeo Ranaldi - GitHub: [Requiem98](https://github.com/Requiem98) 
   
  
  Michele Luca Puzzo - GitHub: [michele1783](https://github.com/michele1783) 
