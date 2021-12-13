@@ -98,7 +98,7 @@ def functionality_1(df):
         degree.append(len(df_graph.nodes[i]))
         
        
-    table = [['Info requested', 'Answers'], ['File', df],['Directed or Undirected?', direct], ['N. users', num_node], 
+    table = [['Info requested', 'Answers'], ['File', df.head()],['Directed or Undirected?', direct], ['N. users', num_node], 
          ['Number of answers/comments',num_edge],['Average n. of links per user',round(media,4)],['Density degree', round(D,4)],
         ['Sparse or Dense?', sparse]]
 
