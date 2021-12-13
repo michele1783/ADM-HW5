@@ -11,6 +11,7 @@ import numpy as np
 from datetime import *
 import networkx as nx
 from collections import *
+import matplotlib.pyplot as plt
 
 class EDGE:
     
@@ -88,4 +89,46 @@ def functionality_1(df):
     #The degree density of a directed graph is : D = |E| / (|V| * (|V| - 1))
     D = (num_edge) / (num_node * (num_node - 1))
     
-    return num_node, num_edge, direct, media, D
+    sparse = "dense"
+    if D < 0.01:
+        sparse = "sparse"
+    
+    degree = []
+    for i in df_graph.nodes.keys():
+        degree.append(len(df_graph.nodes[i]))
+        
+       
+    table = [['Info requested', 'Answers'], ['File', df],['Directed or Undirected?', direct], ['N. users', num_node], 
+         ['Number of answers/comments',num_edge],['Average n. of links per user',round(media,4)],['Density degree', round(D,4)],
+        ['Sparse or Dense?', sparse]]
+
+    
+    return num_node, num_edge, direct, media, D, sparse, degree, table
+
+def fig(degree_1):
+    f = plt.figure(figsize=(20,10))
+    plt.subplot(221)
+    bin_1 = list(range(1, 21))
+    plt.hist(degree_1, bins = bin_1, color = "orchid")
+    plt.title("Density Distribution")
+    plt.xlabel("Degree")
+    plt.ylabel("Number of users")
+    plt.xticks(list(range(1, 20 ,2)))
+    plt.subplot(222)
+    bin_2 = list(range(20, 101))
+    plt.hist(degree_1, bins = bin_2, color = "salmon")
+    plt.title("Density Distribution")
+    plt.xlabel("Degree")
+    plt.ylabel("Number of users")
+    plt.subplot(223)
+    bin_3 = list(range(100, 501))
+    plt.hist(degree_1, bins = bin_3, color = "darkgreen")
+    plt.title("Density Distribution")
+    plt.xlabel("Degree")
+    plt.ylabel("Number of users")
+    plt.subplot(224)
+    bin_4 = list(range(500, max(degree_1)))
+    plt.hist(degree_1, bins = bin_4, color = "red")
+    plt.title("Density Distribution")
+    plt.xlabel("Degree")
+    plt.ylabel("Number of users")
