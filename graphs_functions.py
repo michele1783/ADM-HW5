@@ -22,8 +22,12 @@ class EDGE:
     def __repr__(self):
         return f"{self.from_n} -> {self.to_n} ::::: weight = {self.w} ::::: time: {self.time}"
     
-    
-    
+class NODE:
+    def __init__(self, value):
+        self.value = value
+        self.pageRank = 1.0
+        
+
 class GRAPH:
     
     def __init__(self, nodes = [], edges = []):
