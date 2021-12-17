@@ -12,6 +12,7 @@ from datetime import *
 import networkx as nx
 from collections import *
 import matplotlib.pyplot as plt
+from tqdm.notebook import tqdm
 
 #class
 class EDGE:
