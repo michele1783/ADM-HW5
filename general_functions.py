@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import pickle
 
 def dateparse(time_as_a_unix_timestamp):
-    return pd.to_datetime(time_as_a_unix_timestamp, unit="s").strftime("%Y-%m-%d")
+    return pd.to_datetime(time_as_a_unix_timestamp, unit="s").strftime("%Y-%m-%d %H")
 
 def save_object(obj, filename):
     with open(filename, 'wb') as outp:  # Overwrites any existing file.
@@ -21,19 +21,27 @@ def read_object(filename):
     with open(filename, 'rb') as file:
         data = pickle.load(file)
     return data
-
-class display(object):
-    """Display HTML representation of multiple objects"""
-    template = """<div style="float: left; padding: 10px;">
-    <p style='font-family:"Courier New", Courier, monospace'>{0}</p>{1}
-    </div>"""
-    def __init__(self, *args):
-        self.args = args
-        
-    def _repr_html_(self):
-        return '\n'.join(self.template.format(a, eval(a)._repr_html_())
-                         for a in self.args)
     
-    def __repr__(self):
-        return '\n\n'.join(a + '\n' + repr(eval(a))
-                           for a in self.args)
+    
+def make_dataframes():
+    #Answers to questions
+    a2q = pd.read_csv("data/sx-stackoverflow-a2q.txt", sep=" " ,header=None, names=["user_a", "user_b", "time"], parse_dates=["time"], date_parser=dateparse)
+    
+    print("a2q dataframe created!")
+    
+    #Comments to answers
+    c2a = pd.read_csv("data/sx-stackoverflow-c2a.txt", sep=" " ,header=None, names=["user_a", "user_b", "time"], parse_dates=["time"], date_parser=dateparse)
+    
+    print("c2a dataframe created!")
+    
+    #Comments to questions
+    c2q = pd.read_csv("data/sx-stackoverflow-c2q.txt", sep=" " ,header=None, names=["user_a", "user_b", "time"], parse_dates=["time"], date_parser=dateparse)
+    
+    print("c2q dataframe created!")
+    
+    print("start writing into files...")
+    a2q.to_csv("data/a2q.csv", index=False)
+    c2q.to_csv("data/c2q.csv", index=False)
+    c2a.to_csv("data/c2a.csv", index=False)
+    
+    print("writing into files completed")

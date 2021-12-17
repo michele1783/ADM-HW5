@@ -114,18 +114,24 @@ class GRAPH:
     def clear_graph_path(self):
         self.visited = []
         
-    def print_graph(self, size = (7,7), pos = "random"):
+    def print_graph(self, size = (7,7), pos = "random", highlight = False, highlighted_node = None):
         G = nx.DiGraph()
-        for k in tqdm(self.nodes):
+        for k in self.nodes:
             G.add_weighted_edges_from([(el.from_n.value, el.to_n.value, el.w) for el in self.nodes[k]])
-            
-        plt.figure(figsize=size)
         
-        pos = eval(graph_layout(pos))
+        
+        
+        plt.figure(figsize=size) 
+        pos = eval(graph_layout(pos)) 
+        
         nx.draw(G, pos, with_labels=True, font_weight='bold')
-        
+         
         labels = nx.get_edge_attributes(G, name="weight")
         nx.draw_networkx_edge_labels(G,pos,edge_labels=labels);
+        
+        if(highlight):
+            nx.draw_networkx_nodes(G, pos, nodelist=[highlighted_node], node_color="red")
+        
         plt.savefig("data/test.pdf")
         plt.show()
         return G
@@ -145,7 +151,7 @@ def make_graph(data):
     g = GRAPH()
     with Pool(multiprocessing.cpu_count()) as pool:
 
-        with tqdm(total = len(data)) as pbar:
+        with tqdm(total = len(data), disable = True) as pbar:
             for el in pool.imap_unordered(lambda row: EDGE(nodes[row[1]["user_a"]],nodes[row[1]["user_b"]],row[1]["time"],row[1]["weights"]), data.iterrows()):
                 g.add_edge_object(el)
                 pbar.update()
