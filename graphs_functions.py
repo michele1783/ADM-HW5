@@ -20,7 +20,7 @@ class EDGE:
         self.time = time
         
     def __repr__(self):
-        return f"{self.from_n} -> {self.to_n} ::::: weight = {self.w} ::::: time: {self.time}"
+        return f"{self.from_n.value} -> {self.to_n.value} ::::: weight = {self.w} ::::: time: {self.time}"
     
 class NODE:
     def __init__(self, value):
@@ -44,6 +44,15 @@ class GRAPH:
         
     def add_node(self, node):
         self.nodes[node] = self.nodes.get(node, [])
+        
+    def get_node(self, value):
+        
+        out_node = [node for node in self.nodes if node.value == value]
+        
+        if(len(out_node)>0):
+            return out_node[0]
+        else:
+            return None
         
     def add_edge(self, from_n, to_n, time, w):
         e = EDGE(from_n, to_n, time, w)
@@ -108,7 +117,7 @@ class GRAPH:
     def print_graph(self, size = (7,7), pos = "random"):
         G = nx.DiGraph()
         for k in tqdm(self.nodes):
-            G.add_weighted_edges_from([(el.from_n, el.to_n, el.w) for el in self.nodes[k]])
+            G.add_weighted_edges_from([(el.from_n.value, el.to_n.value, el.w) for el in self.nodes[k]])
             
         plt.figure(figsize=size)
         
@@ -131,12 +140,13 @@ class GRAPH:
     
     
 def make_graph(data):
-    #nodes_graph_a2q_2y = pd.concat([a2q_2y["user_a"], a2q_2y["user_b"]], axis = 0).drop_duplicates().array
+    nodes = {el:NODE(el) for el in pd.concat([data["user_a"], data["user_b"]], axis = 0).drop_duplicates().array}
+    
     g = GRAPH()
     with Pool(multiprocessing.cpu_count()) as pool:
 
         with tqdm(total = len(data)) as pbar:
-            for el in pool.imap_unordered(lambda row: EDGE(row[1]["user_a"],row[1]["user_b"],row[1]["time"],row[1]["weights"]), data.iterrows()):
+            for el in pool.imap_unordered(lambda row: EDGE(nodes[row[1]["user_a"]],nodes[row[1]["user_b"]],row[1]["time"],row[1]["weights"]), data.iterrows()):
                 g.add_edge_object(el)
                 pbar.update()
                 
@@ -171,34 +181,34 @@ def dijkstra(n, g, print_g = False, size=(7,7), style = "random"):
     g.clear_graph_path()
     
     new_G = GRAPH()
-    dist = defaultdict(float, {k:float('inf') for k in g.nodes})
+    dist = defaultdict(float, {k.value:float('inf') for k in g.nodes})
     dist[n] = 0 
     
-    sigma = dict.fromkeys(g.nodes, 0)
+    sigma = dict.fromkeys([k.value for k in g.nodes], 0)
     sigma[n] = 1
-    new_G.add_node(n)
+    #new_G.add_node(n)
     
     for i in range(len(g)):  
 
-        current_node = min([(dist[el], el) for el in g.nodes if not g.is_visited(el)], key=lambda e: e[0])[1]
+        current_node = min([(dist[el.value], el) for el in g.nodes if not g.is_visited(el)], key=lambda e: e[0])[1]
         g.visited.append(current_node)
         
         
-        if(dist[current_node] == float("inf")):
+        if(dist[current_node.value] == float("inf")):
             break
         
         prec = [el.from_n for el in new_G.nodes[current_node] if el.from_n != current_node]
         
         if(len(prec) != 0):
-            sigma[current_node] += sigma[prec[0]]
+            sigma[current_node.value] += sigma[prec[0].value]
         
         for neighbour in [el.to_n for el in g.nodes[current_node] if el.from_n == current_node]:
 
-            alt = dist[current_node] + g.get_edge(current_node, neighbour).w
+            alt = dist[current_node.value] + g.get_edge(current_node, neighbour).w
             
-            if(alt < dist[neighbour] and not neighbour in g.visited):
-                dist[neighbour] = alt
-                sigma[neighbour] = 0
+            if(alt < dist[neighbour.value] and not neighbour in g.visited):
+                dist[neighbour.value] = alt
+                sigma[neighbour.value] = 0
                 
                 try:
                     new_G.delete_all_edge_of_node(neighbour)
@@ -207,8 +217,18 @@ def dijkstra(n, g, print_g = False, size=(7,7), style = "random"):
                 
                 new_G.add_edge(current_node, neighbour, g.get_edge(current_node,neighbour).time, alt)
                 
-            elif(alt == dist[neighbour]):
-                sigma[neighbour] += sigma[current_node]
+            elif(alt == dist[neighbour.value]):
+                sigma[neighbour.value] += sigma[current_node.value]
+                
+                
+                
+                
+    g.clear_graph_path()
+    
+    if(print_g):
+        new_G.print_graph(size=size, pos=style)
+        
+    return new_G, dist, sigma
                 
                 
                 
