@@ -41,10 +41,10 @@ print("Starting to create the graphs...")
 a2q_2y_g = make_graph(a2q_2y)
 print("        a2q graph created")
 
-#c2q_2y_g = make_graph(c2q_2y)
+c2q_2y_g = make_graph(c2q_2y)
 print("        c2q graph created")
 
-#c2a_2y_g = make_graph(c2a_2y)
+c2a_2y_g = make_graph(c2a_2y)
 print("        c2a graph created")
 
 totDataframe_2y_g = make_graph(totDataframe_2y)
