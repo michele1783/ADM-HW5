@@ -57,9 +57,6 @@ class GRAPH:
                 self.nodes[edge.from_n].append(edge)
                 self.nodes[edge.to_n].append(edge)
         
-        #number of nodes
-        self.num_nodes = len(nodes)
-        
         #number of edges
         self.num_edges = len(edges)
         self.visited = []
@@ -89,6 +86,8 @@ class GRAPH:
         self.nodes[from_n].append(e)
         self.nodes[to_n].append(e)
         
+        self.num_edges += 1
+        
     def add_edge_object(self, edge):
         
         #through this function instead we add an edge object, already created
@@ -96,6 +95,8 @@ class GRAPH:
         #in the dictionary we add this edge object to its starting node and to its end node
         self.nodes[edge.from_n].append(edge)
         self.nodes[edge.to_n].append(edge)
+        
+        self.num_edges += 1
         
     def add_edge_object_list(self, edges):
         
@@ -105,6 +106,8 @@ class GRAPH:
         for edge in edges:
             self.nodes[edge.from_n].append(edge)
             self.nodes[edge.to_n].append(edge)
+            
+            self.num_edges += 1
             
     def get_edge(self, from_n, to_n):
         
@@ -129,6 +132,7 @@ class GRAPH:
             if(edge.from_n == from_n and edge.to_n == to_n):
                 
                 self.nodes[from_n].remove(edge)
+                self.num_edges -= 1
                 
         #check the key of end node       
         for edge in self.nodes[to_n]:
@@ -136,6 +140,7 @@ class GRAPH:
             if(edge.from_n == from_n and edge.to_n == to_n):
                 
                 self.nodes[to_n].remove(edge)
+                self.num_edges -= 1
                 
     def delete_all_edge_of_node(self, node):
         
@@ -145,10 +150,13 @@ class GRAPH:
     
             if(edge.to_n != node):
                 self.nodes[edge.to_n].remove(edge)
+                self.num_edges -= 1
                 
             
             else:
                 self.nodes[edge.from_n].remove(edge)
+                self.num_edges -= 1
+                
         
         self.nodes[node] = []
              

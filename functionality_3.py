@@ -30,7 +30,7 @@ def shortest_ordered_route(p, p_start, p_end, g):
     
     #list of the edges of the shortest ordered route
     final_path = []
-    for i in range(0, len(p)-1):
+    for i in tqdm(range(0, len(p)-1)):
         
         #compute dijkstra from the i-th node
         new_g, dist, _ = dijkstra(p[i], g)

@@ -21,24 +21,24 @@ print("        c2a read")
 
 
 #Answers to questions
-a2q["weights"] = 1
+a2q["weights"] = 0.4
 
 #Comments to answers
-c2a["weights"] = 0.4
+c2a["weights"] = 1
 
 #Comments to questions
 c2q["weights"] = 0.7
 
 totDataframe = pd.concat([a2q, c2a, c2q])
 
-totDataframe_2y = totDataframe[totDataframe.time.between("2008","2010")]
-a2q_2y = a2q[a2q.time.between("2008","2010")]
-c2q_2y = c2q[c2q.time.between("2008","2010")]
-c2a_2y = c2a[c2a.time.between("2008","2010")]
+totDataframe_2y = totDataframe[totDataframe.time.between("2008-08-01", "2008-09-01")]
+a2q_2y = a2q[a2q.time.between("2008-08-01", "2008-09-01")]
+c2q_2y = c2q[c2q.time.between("2008-08-01", "2008-09-01")]
+c2a_2y = c2a[c2a.time.between("2008-08-01", "2008-09-01")]
 
 print("Starting to create the graphs...")
 
-#a2q_2y_g = make_graph(a2q_2y)
+a2q_2y_g = make_graph(a2q_2y)
 print("        a2q graph created")
 
 #c2q_2y_g = make_graph(c2q_2y)
