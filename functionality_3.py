@@ -38,7 +38,14 @@ class EDGE:
         #instances of class EDGE return a print that characterize the edge
         return f"{self.from_n} -> {self.to_n} ::::: weight = {self.w} ::::: time: {self.time}"
     
-
+class NODE:
+    def __init__(self, value):
+        self.value = value
+        self.pageRank = 1.0
+        
+    
+    
+    
 class GRAPH:
     
     def __init__(self, nodes = [], edges = []):
@@ -364,6 +371,8 @@ def shortest_ordered_route(p, p_start, p_end, g):
     
     return out_graph, final_path, lunghezza
 
+
+
 def func_3(data, p, p_start, p_end, time_start, time_end):
     
     #we filter the dataset with a given interval of time
@@ -373,9 +382,7 @@ def func_3(data, p, p_start, p_end, time_start, time_end):
     g = make_graph(data)
     
     #compute the shortest ordered route
-    out_graph, final_path, lunghezza = shortest_ordered_route(p, p_start, p_end, g)
-    
     #return the out_graph for the visualization
     #lunghezza is the length of the final path
     #final path is a list of edges of the route
-    return out_graph, final_path, lunghezza
+    return shortest_ordered_route(p, p_start, p_end, g)
