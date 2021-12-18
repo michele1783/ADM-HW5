@@ -9,6 +9,7 @@ from multiprocessing.dummy import Pool
 import multiprocessing
 import matplotlib.pyplot as plt
 import pickle
+from tabulate import tabulate
 
 def dateparse(time_as_a_unix_timestamp):
     return pd.to_datetime(time_as_a_unix_timestamp, unit="s").strftime("%Y-%m-%d %H")

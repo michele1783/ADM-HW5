@@ -8,10 +8,17 @@ DATAFRAMES
 ===================================================================================================
 """
 
+print("Starting to read the csv files...")
 
 a2q = pd.read_csv("data/a2q.csv", parse_dates=["time"], infer_datetime_format=True)
+print("        a2q read")
+
 c2q = pd.read_csv("data/c2q.csv", parse_dates=["time"], infer_datetime_format=True)
+print("        c2q read")
+
 c2a = pd.read_csv("data/c2a.csv", parse_dates=["time"], infer_datetime_format=True)
+print("        c2a read")
+
 
 #Answers to questions
 a2q["weights"] = 1
@@ -24,10 +31,24 @@ c2q["weights"] = 0.7
 
 totDataframe = pd.concat([a2q, c2a, c2q])
 
-totDataframe_2y = totDataframe[totDataframe.time.between("2015","2017")]
-a2q_2y = a2q[a2q.time.between("2015","2017")]
-c2q_2y = c2q[c2q.time.between("2015","2017")]
-c2a_2y = c2a[c2a.time.between("2015","2017")]
+totDataframe_2y = totDataframe[totDataframe.time.between("2008","2010")]
+a2q_2y = a2q[a2q.time.between("2008","2010")]
+c2q_2y = c2q[c2q.time.between("2008","2010")]
+c2a_2y = c2a[c2a.time.between("2008","2010")]
+
+print("Starting to create the graphs...")
+
+#a2q_2y_g = make_graph(a2q_2y)
+print("        a2q graph created")
+
+#c2q_2y_g = make_graph(c2q_2y)
+print("        c2q graph created")
+
+#c2a_2y_g = make_graph(c2a_2y)
+print("        c2a graph created")
+
+totDataframe_2y_g = make_graph(totDataframe_2y)
+print("        totDataframe graph created")
 
 
 
@@ -38,8 +59,6 @@ GRAPHS
 
 ===================================================================================================
 """
-
-test_g = make_graph(totDataframe_2y[totDataframe_2y.time.between("2015-01-01","2015-01-01")].iloc[:1000])
 
 
 t = GRAPH()
