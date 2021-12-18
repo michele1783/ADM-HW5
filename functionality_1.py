@@ -20,33 +20,6 @@ import matplotlib.pyplot as plt
 import pickle
 
 
-def dateparse(time_as_a_unix_timestamp):
-    
-    #input:unix time stamp
-    #output: date
-    #through this function we pass from the unix timestamp  to a readable date
-    return pd.to_datetime(time_as_a_unix_timestamp, unit="s").strftime("%Y-%m-%d %H:%M")
-
-
-class display(object):
-    #it is a class that allows to visualize contemporarely more dataframe 
-    #it's just for visualization
-    
-    """Display HTML representation of multiple objects"""
-    template = """<div style="float: left; padding: 10px;">
-    <p style='font-family:"Courier New", Courier, monospace'>{0}</p>{1}
-    </div>"""
-    def __init__(self, *args):
-        self.args = args
-        
-    def _repr_html_(self):
-        return '\n'.join(self.template.format(a, eval(a)._repr_html_())
-                         for a in self.args)
-    
-    def __repr__(self):
-        return '\n\n'.join(a + '\n' + repr(eval(a))
-                           for a in self.args)
-
 #class
 class EDGE:
     
@@ -67,7 +40,6 @@ class EDGE:
         
         #instances of class EDGE return a print that characterize the edge
         return f"{self.from_n} -> {self.to_n} ::::: weight = {self.w} ::::: time: {self.time}"
-
 class GRAPH:
     
     def __init__(self, nodes = [], edges = []):
@@ -124,6 +96,11 @@ class GRAPH:
         #in the dictionary we add this edge object to its starting node and to its end node
         self.nodes[edge.from_n].append(edge)
         self.nodes[edge.to_n].append(edge)
+        self.num_edges += 1
+        
+        
+        
+        
         
     def add_edge_object_list(self, edges):
         #through this function instead we add a list of edge object, already created
@@ -132,6 +109,7 @@ class GRAPH:
         for edge in edges:
             self.nodes[edge.from_n].append(edge)
             self.nodes[edge.to_n].append(edge)
+            self.num_edges += 1
             
     def get_edge(self, from_n, to_n):
         #through this function given a starting node in input and in output
@@ -153,11 +131,13 @@ class GRAPH:
         for edge in self.nodes[from_n]:
             if(edge.from_n == from_n and edge.to_n == to_n):
                 self.nodes[from_n].remove(edge)
+                self.num_edges -= 1
                 
          #check the key of end node      
         for edge in self.nodes[to_n]:
             if(edge.from_n == from_n and edge.to_n == to_n):
                 self.nodes[to_n].remove(edge)
+                self.num_edges -= 1
                 
     def delete_all_edge_of_node(self, node):
         
@@ -167,10 +147,12 @@ class GRAPH:
     
             if(edge.to_n != node):
                 self.nodes[edge.to_n].remove(edge)
+                self.num_edges -= 1
                 
              
             else:
                 self.nodes[edge.from_n].remove(edge)
+                self.num_edges -= 1
         
         self.nodes[node] = []
              
@@ -260,25 +242,12 @@ def funz_1():
     
 def functionality_1(df, df_graph):
     #input: one of three starting dataframe
+    #input: one of three starting graph
+    
     #output: all the requested values from functionality 1
     
-    #array of nodes of graph df
-    #concatenate two column of user and pick the unique values.
-    #it's a pandas array
-    nodi_grafo = pd.concat([df["user_a"], df["user_b"]], axis = 0).drop_duplicates().array
-    
-    #list of edges 
-    edge_grafo = []
-    
-    #read each row of the dataframe
-    for i in range(len(df)): 
-        
-        #exploit the class edge to create them
-        edge_grafo.append(EDGE(df.iloc[i,0], df.iloc[i,1], df.iloc[i,2], df.iloc[i,3]))
-    
-
     #Number of users
-    num_node = df_graph.num_nodes
+    num_node = len(df_graph)
     
     #Number of answers
     num_edge = df_graph.num_edges
