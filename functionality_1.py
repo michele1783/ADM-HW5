@@ -362,7 +362,7 @@ def fig_plot(degree_1):
     plt.figure(figsize=(20,10))
     
     #plot
-    plt.bar(degree_1, color = "darkblue")
+    plt.plot(degree_1, color = "darkblue")
     plt.title("Degree Distribution", fontsize=20)
     plt.xlabel("Users", fontsize=15)
     plt.ylabel("Degree", fontsize=15)
