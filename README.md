@@ -17,6 +17,9 @@ In this homework, we have built a system that provides users with information ab
 
 ## Content Description
 In our repository there is:
+- `main.ipynb` that is the jupyter notebook where we have runned all the functions implemented to solve the functionalities and the algorithmic question.
+- `test.py` that is python file where we have read the csv file, created the graph and written some graph test to check our functions.
+- 
 
 
 
