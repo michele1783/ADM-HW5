@@ -300,7 +300,7 @@ def fig(degree_1):
     #histogram
     plt.hist(degree_1, bins = 300, color = "darkorange")
     plt.yscale("log")
-    plt.title("Denisty distribution", fontsize = 20)
+    plt.title("Density distribution", fontsize = 20)
     plt.xlabel("Degree", fontsize = 12)
     plt.ylabel("Number of users with x degree", fontsize = 12)
     plt.show()
