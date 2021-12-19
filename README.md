@@ -18,6 +18,7 @@ In this homework, we have built a system that provides users with information ab
 ## Content Description
 In our repository there is:
 - `main.ipynb` is the jupyter notebook where we have runned all the functions implemented to solve the functionalities and the algorithmic question.
+- `general_functions.py` is python file where we have written functions to pass from txt file to csv and file and trasform the unix timestamp in a date. 
 - `test.py` is python file where we have read the csv file, filtered dataframe with a time interval, assigned the weights, created the graph and written some graph test to check our functions.
 - `graphs_functions.py` is a python file where we have written the classes to implement our Graph. 
 
