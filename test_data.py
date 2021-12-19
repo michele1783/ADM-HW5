@@ -118,3 +118,6 @@ t3.add_edge(from_n=n4,to_n=n7, time="438", w=1)
 t3.add_edge(from_n=n7,to_n=n9, time="438", w=1)
 t3.add_edge(from_n=n8,to_n=n9, time="438", w=1)
 t3.add_edge(from_n=n4,to_n=n8, time="438", w=1)
+
+
+

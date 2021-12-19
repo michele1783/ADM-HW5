@@ -136,7 +136,7 @@ def functionality_2_visual():
     
     out_g = GRAPH(edges=neighbours)
     
-    out_g.print_graph(pos="planar", highlight=True, highlighted_node=n, size=(20,20))
+    out_g.print_graph(pos="planar", highlight=True, highlighted_node=n, size=(15,10))
     
     
     out = []
